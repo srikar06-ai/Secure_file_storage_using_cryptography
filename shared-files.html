@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Files - SecureVault</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <span>SecureVault</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Main Menu</span>
+        <a href="dashboard.html" class="sidebar-link">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="my-files.html" class="sidebar-link">
+          <i class="bi bi-folder2-open"></i>
+          <span>My Files</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <span>Upload & Secure</span>
+        </a>
+        <a href="decrypt.html" class="sidebar-link">
+          <i class="bi bi-unlock"></i>
+          <span>Accessible Files</span>
+        </a>
+        <a href="shared-files.html" class="sidebar-link active">
+          <i class="bi bi-share"></i>
+          <span>Shared Files</span>
+        </a>
+
+        <span class="nav-section-label">Cryptography & Security</span>
+        <a href="key-management.html" class="sidebar-link">
+          <i class="bi bi-key"></i>
+          <span>Key Management</span>
+        </a>
+        <a href="activity-logs.html" class="sidebar-link">
+          <i class="bi bi-shield-shaded"></i>
+          <span>Security Logs</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="help.html" class="sidebar-link">
+          <i class="bi bi-question-circle"></i>
+          <span>Help & Docs</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-mini-profile">
+            <div class="user-avatar user-display-initials">AR</div>
+            <div class="user-mini-info">
+              <div class="user-mini-name user-display-name">Alex Rivera</div>
+              <div class="user-mini-role user-display-role">Lead Engineer</div>
+            </div>
+          </div>
+          <a href="login.html" class="btn-sidebar-logout" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Body -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button type="button" class="topbar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-root">SecureVault</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Shared Files</span>
+          </div>
+        </div>
+
+        <div class="topbar-search">
+          <i class="bi bi-search topbar-search-icon"></i>
+          <input type="text" id="global-search-input" class="form-control" placeholder="Search secured vault...">
+          <span class="topbar-search-shortcut">Ctrl K</span>
+        </div>
+
+        <div class="topbar-right">
+          <div class="user-profile-trigger" id="profile-dropdown-btn">
+            <div class="user-avatar user-display-initials" style="width: 32px; height: 32px; font-size: 0.8rem;">AR</div>
+            <span class="user-display-name fw-semibold d-none d-md-inline" style="font-size: 0.875rem;">Alex Rivera</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-header-row">
+          <div class="page-title-group">
+            <h1>Secure File Sharing</h1>
+            <p>Manage zero-knowledge share links, permission levels, expiration timers, and revocations.</p>
+          </div>
+          <div class="page-actions-group">
+            <button type="button" class="btn btn-primary" onclick="openModal('modal-share-file')">
+              <i class="bi bi-plus-lg"></i> Create Share Link
+            </button>
+          </div>
+        </div>
+
+        <!-- Shared Files Table Card -->
+        <div class="card p-0">
+          <div class="card-header border-bottom px-4 py-3">
+            <h3 class="card-title mb-0">Active & Expired File Shares</h3>
+            <span class="badge badge-primary">E2EE Protected Links</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th>File Name</th>
+                  <th>Shared With</th>
+                  <th>Permission Type</th>
+                  <th>Sharing Date</th>
+                  <th>Expiry Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="shared-table-tbody">
+                <!-- Rendered by sharing.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Share File Modal -->
+  <div class="modal-backdrop" id="modal-share-file">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="bi bi-share-fill text-primary-color me-2"></i> Generate Secure Share Link</h3>
+        <button class="modal-close" onclick="closeModal('modal-share-file')">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <form id="form-create-share">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="share-file-select">Select Vault File</label>
+            <select id="share-file-select" class="form-control" required>
+              <!-- Loaded dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="share-recipient-email">Recipient Email Address</label>
+            <input type="email" id="share-recipient-email" class="form-control" placeholder="colleague@enterprise.com" required>
+          </div>
+
+          <div class="row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="share-permission-select">Permission Level</label>
+              <select id="share-permission-select" class="form-control">
+                <option value="View Only">View Only</option>
+                <option value="Download">Download</option>
+                <option value="Full Access">Full Access</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="share-expiry-date">Link Expiration Date</label>
+              <input type="date" id="share-expiry-date" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="security-alert mb-0">
+            <i class="bi bi-shield-lock-fill"></i>
+            <div class="security-alert-text">
+              <h4>Zero-Knowledge Link Security</h4>
+              <p>The cryptographic access key is encapsulated in the URL hash fragment (#), preventing servers from seeing your secret keys.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-share-file')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Generate Share Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Revoke Access Confirmation Modal -->
+  <div class="modal-backdrop" id="modal-revoke-share">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="text-danger"><i class="bi bi-shield-x me-2"></i> Revoke Share Access</h3>
+        <button class="modal-close" onclick="closeModal('modal-revoke-share')"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="modal-body">
+        <p id="revoke-target-text">Are you sure you want to revoke this share?</p>
+        <p class="text-muted small">
+          Revoking will immediately invalidate the cryptographic token. The recipient will be unable to access this file.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-revoke-share')">Keep Active</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-revoke">Revoke Access Immediately</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/sharing.js"></script>
+</body>
+</html>

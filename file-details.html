@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Details - SecureVault</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <span>SecureVault</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Main Menu</span>
+        <a href="dashboard.html" class="sidebar-link">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="my-files.html" class="sidebar-link active">
+          <i class="bi bi-folder2-open"></i>
+          <span>My Files</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <span>Upload & Secure</span>
+        </a>
+        <a href="decrypt.html" class="sidebar-link">
+          <i class="bi bi-unlock"></i>
+          <span>Accessible Files</span>
+        </a>
+        <a href="shared-files.html" class="sidebar-link">
+          <i class="bi bi-share"></i>
+          <span>Shared Files</span>
+        </a>
+
+        <span class="nav-section-label">Cryptography & Security</span>
+        <a href="key-management.html" class="sidebar-link">
+          <i class="bi bi-key"></i>
+          <span>Key Management</span>
+        </a>
+        <a href="activity-logs.html" class="sidebar-link">
+          <i class="bi bi-shield-shaded"></i>
+          <span>Security Logs</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="help.html" class="sidebar-link">
+          <i class="bi bi-question-circle"></i>
+          <span>Help & Docs</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-mini-profile">
+            <div class="user-avatar user-display-initials">AR</div>
+            <div class="user-mini-info">
+              <div class="user-mini-name user-display-name">Alex Rivera</div>
+              <div class="user-mini-role user-display-role">Lead Engineer</div>
+            </div>
+          </div>
+          <a href="login.html" class="btn-sidebar-logout" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Body -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button type="button" class="topbar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-root">SecureVault</span>
+            <span class="breadcrumb-separator">/</span>
+            <a href="my-files.html" class="breadcrumb-root">My Files</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">File Details</span>
+          </div>
+        </div>
+
+        <div class="topbar-search">
+          <i class="bi bi-search topbar-search-icon"></i>
+          <input type="text" id="global-search-input" class="form-control" placeholder="Search secured vault...">
+          <span class="topbar-search-shortcut">Ctrl K</span>
+        </div>
+
+        <div class="topbar-right">
+          <div class="user-profile-trigger" id="profile-dropdown-btn">
+            <div class="user-avatar user-display-initials" style="width: 32px; height: 32px; font-size: 0.8rem;">AR</div>
+            <span class="user-display-name fw-semibold d-none d-md-inline" style="font-size: 0.875rem;">Alex Rivera</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <!-- Header Row -->
+        <div class="page-header-row">
+          <div class="page-title-group">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <a href="my-files.html" class="btn btn-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back to Files</a>
+              <span id="detail-status-badge" class="badge badge-primary">Secured</span>
+            </div>
+            <h1 id="detail-filename">File_Details.pdf</h1>
+            <p id="detail-subtext" class="text-muted">Uploaded on October 28, 2024 &bull; Verified integrity</p>
+          </div>
+
+          <div class="page-actions-group">
+            <button type="button" class="btn btn-secondary" id="btn-detail-share">
+              <i class="bi bi-share"></i> Share
+            </button>
+            <button type="button" class="btn btn-primary" id="btn-detail-decrypt-or-dl">
+              <i class="bi bi-unlock"></i> Make Accessible
+            </button>
+            <button type="button" class="btn btn-outline-danger" id="btn-detail-delete">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- 2 Column Details Grid -->
+        <div class="file-details-grid">
+          <!-- Left: Metadata & Cryptographic Specs -->
+          <div class="card">
+            <h3 class="card-title mb-3">Cryptographic Metadata</h3>
+            <div class="meta-list">
+              <div class="meta-row">
+                <span class="meta-key">File Name</span>
+                <span class="meta-val font-mono" id="md-name">Report.pdf</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">File Format / MIME</span>
+                <span class="meta-val" id="md-type">PDF Document (application/pdf)</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Secured Size</span>
+                <span class="meta-val" id="md-size">4.2 MB (4,404,019 bytes)</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Security Algorithm</span>
+                <span class="meta-val" id="md-algo">AES-256 (Galois/Counter Mode)</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Associated Key Fingerprint</span>
+                <span class="meta-val font-mono text-primary-color" id="md-key">4a:7b:99:c2:d1:f4</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">SHA-256 Digest</span>
+                <span class="meta-val font-mono small text-break" id="md-sha256">9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">MD5 Checksum</span>
+                <span class="meta-val font-mono small" id="md-md5">7d8a9c2b3f1e4a5d6e7f8a9b0c1d2e3f</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Container Protocol</span>
+                <span class="meta-val"><span class="badge badge-neutral">SVAULT_V1</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Visual Preview Placeholder & Ciphertext -->
+          <div class="d-flex flex-column gap-3">
+            <!-- Preview Box Placeholder -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">File Content Preview</h3>
+                <span class="badge badge-neutral" id="preview-badge-status">Protected Preview</span>
+              </div>
+              <div class="card-body">
+                <div id="preview-visual-box" style="background-color: var(--bg-main); border: 1px dashed var(--border-color); border-radius: var(--radius-md); padding: 2.5rem 1.5rem; text-align: center;">
+                  <div class="file-type-icon icon-doc mx-auto mb-3" id="preview-icon-type" style="width: 56px; height: 56px; font-size: 1.8rem;">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                  </div>
+                  <h4 id="preview-box-title" class="mb-1">Secured Payload</h4>
+                  <p class="text-muted small mb-3" id="preview-box-desc">Raw content is locked behind client-side security cipher blocks.</p>
+                  <div class="p-3 bg-white rounded border font-mono small text-start" id="preview-text-content" style="max-height: 120px; overflow-y: auto;">
+                    U2FsdGVkX1+vupppZksvRf5pq5g5XwbDu2jIF9n9mI/h4m7iVd0aEw3s5T6u...
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Audit Trail for this file -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">File Audit History</h3>
+                <span class="badge badge-success">Tamper Verified</span>
+              </div>
+              <div class="card-body">
+                <div class="activity-feed" id="file-audit-feed">
+                  <!-- Injected via script -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal-backdrop" id="modal-delete-file">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm Shredding</h3>
+        <button class="modal-close" onclick="closeModal('modal-delete-file')"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="modal-body">
+        <p>Permanently shred this file and erase all cryptographic references?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-delete-file')">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-delete-action">Shred & Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      let fileId = urlParams.get('id');
+
+      let file = null;
+      if (typeof StorageService !== 'undefined') {
+        const files = StorageService.getFiles();
+        file = files.find(f => f.id === fileId) || files[0];
+      }
+
+      if (!file) {
+        showToast('File Not Found', 'Could not locate file metadata.', 'error');
+        return;
+      }
+
+      // Populate file details
+      document.getElementById('detail-filename').textContent = file.name;
+      document.getElementById('detail-subtext').textContent = `Stored on ${file.date} • Verified zero-knowledge envelope`;
+      document.getElementById('md-name').textContent = file.name;
+      document.getElementById('md-type').textContent = `${file.type.toUpperCase()} Container (${file.type})`;
+      document.getElementById('md-size').textContent = `${file.sizeStr} (${file.sizeBytes || 'N/A'} bytes)`;
+      document.getElementById('md-algo').textContent = `${file.algorithm} Block Cipher (Galois/Counter Mode)`;
+      document.getElementById('md-sha256').textContent = file.sha256 || '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08';
+      document.getElementById('md-md5').textContent = file.md5 || '7d8a9c2b3f1e4a5d6e7f8a9b0c1d2e3f';
+
+      const statusBadge = document.getElementById('detail-status-badge');
+      const actionBtn = document.getElementById('btn-detail-decrypt-or-dl');
+      const previewText = document.getElementById('preview-text-content');
+      const previewBadge = document.getElementById('preview-badge-status');
+
+      const isSecured = file.status === 'Secured' || file.status === 'Encrypted';
+
+      if (isSecured) {
+        statusBadge.className = 'badge badge-primary';
+        statusBadge.innerHTML = `<i class="bi bi-lock-fill"></i> Secured (${file.algorithm})`;
+        actionBtn.innerHTML = `<i class="bi bi-unlock"></i> Make Accessible`;
+        actionBtn.onclick = () => { window.location.href = `decrypt.html?id=${file.id}`; };
+        previewText.textContent = file.cipherPreview || '[SECURED_BINARY_PAYLOAD_CIPHERTEXT]';
+        previewBadge.textContent = 'Ciphertext Preview';
+      } else {
+        statusBadge.className = 'badge badge-success';
+        statusBadge.innerHTML = `<i class="bi bi-unlock-fill"></i> Accessible`;
+        actionBtn.innerHTML = `<i class="bi bi-download"></i> Download Accessible`;
+        actionBtn.onclick = () => { downloadSimulatedFile(file.name, file.accessibleSample || file.decryptedSample || 'Plaintext content.'); };
+        previewText.textContent = file.accessibleSample || file.decryptedSample || 'Plaintext payload restored successfully.';
+        previewBadge.textContent = 'Accessible Preview';
+        previewBadge.className = 'badge badge-success';
+      }
+
+      // Share button
+      document.getElementById('btn-detail-share').onclick = () => {
+        window.location.href = `shared-files.html?shareFileId=${file.id}`;
+      };
+
+      // Delete button
+      document.getElementById('btn-detail-delete').onclick = () => {
+        openModal('modal-delete-file');
+      };
+
+      document.getElementById('btn-confirm-delete-action').onclick = () => {
+        StorageService.deleteFile(file.id);
+        closeModal('modal-delete-file');
+        showToast('File Shredded', 'The file was purged from vault storage.', 'success');
+        setTimeout(() => { window.location.href = 'my-files.html'; }, 500);
+      };
+
+      // File Audit Feed
+      const auditFeed = document.getElementById('file-audit-feed');
+      auditFeed.innerHTML = `
+        <div class="activity-item">
+          <div class="activity-icon stat-icon-blue"><i class="bi bi-lock-fill"></i></div>
+          <div class="activity-details">
+            <div class="activity-text"><strong>Secured with ${file.algorithm}</strong></div>
+            <div class="activity-meta"><span>${file.date} 10:14:02</span> &bull; <span class="text-success">Verified</span></div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon stat-icon-green"><i class="bi bi-shield-check"></i></div>
+          <div class="activity-details">
+            <div class="activity-text"><strong>SHA-256 Digest Verified</strong></div>
+            <div class="activity-meta"><span>${file.date} 10:14:00</span> &bull; <span class="text-success">Integrity Intact</span></div>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+/* ==========================================================================
+   SECUREVAULT AUTHENTICATION STYLES (Login & Signup)
+   ========================================================================== */
+
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.25rem;
+  background: radial-gradient(circle at 50% 20%, #EEF2FF 0%, #F8F9FF 70%);
+  position: relative;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background-color: var(--secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  padding: 2.5rem 2.25rem;
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  z-index: 2;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-logo-link {
+  display: inline-flex;
+  margin-bottom: 1.5rem;
+}
+
+.auth-header h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-row-split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.form-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* Password Strength Indicator */
+.password-strength-box {
+  margin-top: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.strength-meter {
+  display: flex;
+  gap: 4px;
+  height: 4px;
+  margin-bottom: 0.4rem;
+}
+
+.strength-bar {
+  flex: 1;
+  background-color: #E4E7EC;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+}
+
+.strength-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-secondary);
+}
+
+.strength-val {
+  font-weight: 600;
+}
+
+.strength-val.weak { color: var(--danger); }
+.strength-val.fair { color: var(--warning); }
+.strength-val.good { color: #2563EB; }
+.strength-val.strong { color: var(--success); }
+
+/* Auth divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.75rem 0;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.auth-divider span {
+  padding: 0 0.85rem;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.auth-footer a {
+  font-weight: 600;
+}
+
+/* Demo credentials badge */
+.demo-hint-box {
+  background-color: var(--light-blue);
+  border: 1px dashed rgba(0, 0, 255, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.demo-hint-box code {
+  font-family: var(--font-mono);
+  background: #FFFFFF;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.btn-fill-demo {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}

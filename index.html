@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureVault - Securing File Storage Using Cryptography</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Landing Navbar -->
+  <header class="landing-nav">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="bi bi-shield-lock-fill"></i>
+        </div>
+        <span>SecureVault</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#hero" class="nav-link active">Home</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="help.html" class="nav-link">Cryptography Docs</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-secondary">Sign In</a>
+        <a href="signup.html" class="btn btn-primary">
+          Get Started <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="hero-badge">
+              <i class="bi bi-shield-check"></i>
+              <span>Zero-Knowledge AES-256 Architecture</span>
+            </div>
+            <h1 class="hero-title">
+              Your Files. Your Privacy. <br>
+              <span class="text-primary-color">Our Secured Architecture.</span>
+            </h1>
+            <p class="hero-desc">
+              Securely upload, protect, manage and access your files with modern cryptographic techniques. Eliminate unauthorized access with client-side zero-knowledge security.
+            </p>
+            <div class="hero-cta">
+              <a href="signup.html" class="btn btn-primary btn-lg">
+                <i class="bi bi-shield-fill-check"></i> Get Started Free
+              </a>
+              <a href="#features" class="btn btn-secondary btn-lg">
+                <i class="bi bi-compass"></i> Explore Features
+              </a>
+            </div>
+            <div class="hero-metrics">
+              <div class="hero-metric-item">
+                <h4>256-Bit</h4>
+                <p>Military-Grade AES</p>
+              </div>
+              <div class="hero-metric-item">
+                <h4>0.00%</h4>
+                <p>Knowledge Breach</p>
+              </div>
+              <div class="hero-metric-item">
+                <h4>100%</h4>
+                <p>Client-Side Control</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Security Illustration Card -->
+          <div class="hero-visual">
+            <div class="hero-crypto-card">
+              <div class="crypto-graphic-header">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-shield-lock-fill text-primary-color" style="font-size: 1.25rem;"></i>
+                  <span class="font-mono text-bold" style="font-size: 0.875rem;">SECURE_STORAGE_TUNNEL</span>
+                </div>
+                <div class="crypto-pulse">
+                  <span class="crypto-pulse-dot"></span>
+                  <span>SECURED</span>
+                </div>
+              </div>
+
+              <div class="crypto-file-box">
+                <div class="crypto-file-icon">
+                  <i class="bi bi-file-earmark-lock-fill"></i>
+                </div>
+                <div>
+                  <div class="text-bold" style="font-size: 0.95rem;">Confidential_Contract.pdf</div>
+                  <div class="text-muted" style="font-size: 0.75rem;">Original Size: 3.4 MB &bull; SHA-256 Verified</div>
+                </div>
+              </div>
+
+              <div class="cipher-stream">
+                0x8f3c9e12b7a456d98c21e0f3456789ab...<br>
+                U2FsdGVkX1+vupppZksvRf5pq5g5XwbDu2...<br>
+                9f86d081884c7d659a2feaa0c55ad015a3...<br>
+                [Cipher block chained with Galois Counter]
+              </div>
+
+              <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                <span class="badge badge-primary">
+                  <i class="bi bi-key-fill"></i> PBKDF2 Key Derivation
+                </span>
+                <span class="badge badge-success">
+                  <i class="bi bi-check2-circle"></i> Authenticated Tag OK
+                </span>
+              </div>
+
+              <!-- Floating Micro-badges -->
+              <div class="crypto-badge-float badge-float-1">
+                <i class="bi bi-shield-fill-check text-success" style="font-size: 1.2rem;"></i>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.8125rem;">Zero Knowledge</div>
+                  <div class="text-muted" style="font-size: 0.7rem;">Keys never leave browser</div>
+                </div>
+              </div>
+
+              <div class="crypto-badge-float badge-float-2">
+                <i class="bi bi-cpu-fill text-primary-color" style="font-size: 1.2rem;"></i>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.8125rem;">Hardware Accelerated</div>
+                  <div class="text-muted" style="font-size: 0.7rem;">AES-NI Native Performance</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section-py">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Core Capabilities</span>
+          <h2 class="section-title">Designed for Absolute Data Confidentiality</h2>
+          <p>SecureVault combines state-of-the-art cryptographic primitives with an intuitive cloud-grade SaaS interface.</p>
+        </div>
+
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-lock-fill"></i>
+            </div>
+            <h3 class="feature-title">End-to-End Secured Protection</h3>
+            <p>Every file is secured locally in your browser before persistence. Your raw data is never exposed in cleartext.</p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-hdd-network-fill"></i>
+            </div>
+            <h3 class="feature-title">Secure File Storage</h3>
+            <p>Secured data partitions safeguard files against tampering, unauthorized inspection, and data extraction attacks.</p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-cpu-fill"></i>
+            </div>
+            <h3 class="feature-title">Advanced Cryptography</h3>
+            <p>Full support for AES-256-GCM, AES-128, and RSA-2048 asymmetric keypairs with cryptographic integrity hashes.</p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-folder-check"></i>
+            </div>
+            <h3 class="feature-title">Easy File Management</h3>
+            <p>Organize, search, sort, and preview secured documents, spreadsheets, images, and archives with grid and list views.</p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-incognito"></i>
+            </div>
+            <h3 class="feature-title">Privacy First Architecture</h3>
+            <p>True zero-knowledge design. No tracking, no third-party telemetry, and total user ownership over cryptographic keys.</p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-share-fill"></i>
+            </div>
+            <h3 class="feature-title">Secure File Sharing</h3>
+            <p>Generate time-bound, permission-controlled cryptographic share links with revocable access and audit logging.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section-py" style="background-color: var(--secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Cryptographic Workflow</span>
+          <h2 class="section-title">How SecureVault Protects Your Files</h2>
+          <p>Five seamless steps to transform any sensitive file into an unbreakable ciphertext container.</p>
+        </div>
+
+        <div class="how-it-works-grid">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h4>Upload Your File</h4>
+            <p>Drag and drop any document, image, or archive into the vault dropzone.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h4>Select Algorithm</h4>
+            <p>Choose AES-256 (standard), AES-128, or RSA-2048 keypair security.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h4>Secure Your File</h4>
+            <p>Generate a unique key and execute client-side cipher transformation.</p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <h4>Store Securely</h4>
+            <p>Save ciphertext containers safely with cryptographic integrity tags.</p>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="step-card">
+            <div class="step-number">5</div>
+            <h4>Make Accessible on Demand</h4>
+            <p>Authenticate with your private passphrase whenever you need the original.</p>
+          </div>
+        </div>
+
+        <!-- Callout Banner -->
+        <div class="cta-banner">
+          <div>
+            <h2>Ready to secure your sensitive files?</h2>
+            <p>Experience commercial-grade zero-knowledge file security directly inside your browser. No server setup required.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="signup.html" class="btn btn-primary btn-lg">Create Free Account</a>
+            <a href="dashboard.html" class="btn btn-secondary btn-lg">Explore Demo Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-py">
+      <div class="container">
+        <div class="card" style="max-width: 900px; margin: 0 auto; padding: 3rem;">
+          <div class="text-center mb-4">
+            <span class="section-tag">About The Project</span>
+            <h2 class="section-title">Securing File Storage Using Cryptography</h2>
+          </div>
+          <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem; text-align: center;">
+            <strong>SecureVault</strong> is a cutting-edge frontend demonstration demonstrating how modern symmetric and asymmetric cryptographic algorithms (AES-256, AES-128, RSA) safeguard digital assets against interception and unauthorized inspection.
+          </p>
+          <div class="row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem;">
+            <div class="p-3" style="background: var(--bg-main); border-radius: var(--radius-sm); text-align: center;">
+              <i class="bi bi-shield-shaded text-primary-color mb-2 d-block" style="font-size: 1.8rem;"></i>
+              <h5 class="mb-1">Zero Trust Security</h5>
+              <p class="small text-muted mb-0">Never trust, always verify every single access request.</p>
+            </div>
+            <div class="p-3" style="background: var(--bg-main); border-radius: var(--radius-sm); text-align: center;">
+              <i class="bi bi-fingerprint text-success mb-2 d-block" style="font-size: 1.8rem;"></i>
+              <h5 class="mb-1">Cryptographic Proof</h5>
+              <p class="small text-muted mb-0">SHA-256 checksums verify data integrity at every step.</p>
+            </div>
+            <div class="p-3" style="background: var(--bg-main); border-radius: var(--radius-sm); text-align: center;">
+              <i class="bi bi-file-earmark-break text-danger mb-2 d-block" style="font-size: 1.8rem;"></i>
+              <h5 class="mb-1">Secure Shredding</h5>
+              <p class="small text-muted mb-0">Cryptographic deletion overwrites keys and pointers permanently.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <div class="brand-icon">
+              <i class="bi bi-shield-lock-fill"></i>
+            </div>
+            <span>SecureVault</span>
+          </a>
+          <p>
+            Securing file storage using cryptography. Modern zero-knowledge web application built for seamless confidentiality and data integrity.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul class="footer-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="upload.html">Upload & Secure</a></li>
+            <li><a href="my-files.html">My Files</a></li>
+            <li><a href="decrypt.html">Accessible Files</a></li>
+            <li><a href="shared-files.html">Shared Files</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Cryptography</h5>
+          <ul class="footer-links">
+            <li><a href="key-management.html">Key Management</a></li>
+            <li><a href="help.html#aes">AES-256 Standard</a></li>
+            <li><a href="help.html#rsa">RSA Cryptosystem</a></li>
+            <li><a href="activity-logs.html">Audit Logs</a></li>
+            <li><a href="settings.html">Security Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Legal & Security</h5>
+          <ul class="footer-links">
+            <li><a href="help.html">Security Documentation</a></li>
+            <li><a href="help.html#faq">FAQ & Support</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Privacy Policy', 'Zero telemetry collected. All files stay in your local browser.', 'info')">Privacy Policy</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Terms of Service', 'SecureVault demonstration frontend terms apply.', 'info')">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2024 SecureVault Inc. All rights reserved. Securing File Storage Using Cryptography.</div>
+        <div class="d-flex gap-3">
+          <span><i class="bi bi-shield-check text-success"></i> TLS 1.3 Strict</span>
+          <span><i class="bi bi-lock-fill text-primary-color"></i> AES-GCM Enforced</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

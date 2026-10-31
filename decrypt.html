@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make Files Accessible - SecureVault</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <span>SecureVault</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Main Menu</span>
+        <a href="dashboard.html" class="sidebar-link">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="my-files.html" class="sidebar-link">
+          <i class="bi bi-folder2-open"></i>
+          <span>My Files</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <span>Upload & Secure</span>
+        </a>
+        <a href="decrypt.html" class="sidebar-link active">
+          <i class="bi bi-unlock"></i>
+          <span>Accessible Files</span>
+        </a>
+        <a href="shared-files.html" class="sidebar-link">
+          <i class="bi bi-share"></i>
+          <span>Shared Files</span>
+        </a>
+
+        <span class="nav-section-label">Cryptography & Security</span>
+        <a href="key-management.html" class="sidebar-link">
+          <i class="bi bi-key"></i>
+          <span>Key Management</span>
+        </a>
+        <a href="activity-logs.html" class="sidebar-link">
+          <i class="bi bi-shield-shaded"></i>
+          <span>Security Logs</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="help.html" class="sidebar-link">
+          <i class="bi bi-question-circle"></i>
+          <span>Help & Docs</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-mini-profile">
+            <div class="user-avatar user-display-initials">AR</div>
+            <div class="user-mini-info">
+              <div class="user-mini-name user-display-name">Alex Rivera</div>
+              <div class="user-mini-role user-display-role">Lead Engineer</div>
+            </div>
+          </div>
+          <a href="login.html" class="btn-sidebar-logout" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- App Main Body -->
+    <div class="app-main">
+      <!-- Topbar Navigation -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button type="button" class="topbar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-root">SecureVault</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Make Accessible</span>
+          </div>
+        </div>
+
+        <div class="topbar-search">
+          <i class="bi bi-search topbar-search-icon"></i>
+          <input type="text" id="global-search-input" class="form-control" placeholder="Search secured vault...">
+          <span class="topbar-search-shortcut">Ctrl K</span>
+        </div>
+
+        <div class="topbar-right">
+          <div class="user-profile-trigger" id="profile-dropdown-btn">
+            <div class="user-avatar user-display-initials" style="width: 32px; height: 32px; font-size: 0.8rem;">AR</div>
+            <span class="user-display-name fw-semibold d-none d-md-inline" style="font-size: 0.875rem;">Alex Rivera</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="app-content">
+        <div class="page-header-row">
+          <div class="page-title-group">
+            <h1>Make Vault Files Accessible</h1>
+            <p>Provide the valid cryptographic key or master passphrase to restore accessible data.</p>
+          </div>
+          <div class="page-actions-group">
+            <a href="my-files.html" class="btn btn-secondary">
+              <i class="bi bi-folder2-open"></i> All Files
+            </a>
+          </div>
+        </div>
+
+        <div class="decrypt-box">
+          <!-- Selection Card -->
+          <div class="card mb-4">
+            <h3 class="card-title mb-3">1. Select Secured File</h3>
+            <div class="form-group mb-0">
+              <label class="form-label" for="select-encrypted-file">Choose from Secured Vault Containers (.svault)</label>
+              <select id="select-encrypted-file" class="form-control">
+                <!-- Dynamically loaded -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Empty Prompt if none selected -->
+          <div id="decrypt-empty-prompt" class="card text-center py-5">
+            <i class="bi bi-lock-fill display-5 text-muted mb-2"></i>
+            <h4>No File Selected</h4>
+            <p class="text-muted">Select a secured file above or navigate from your file list to make it accessible.</p>
+          </div>
+
+          <!-- File Info Card (Visible after selection) -->
+          <div id="decrypt-file-info-card" class="card mb-4" style="display: none;">
+            <div class="card-header">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-lock-fill text-primary-color" style="font-size: 1.5rem;"></i>
+                <div>
+                  <h4 id="dec-info-name" class="mb-0">Secured_Payload.svault</h4>
+                  <span class="text-muted small">Container Verified &bull; Cryptographic Header Valid</span>
+                </div>
+              </div>
+              <span class="badge badge-primary" id="dec-info-algo">AES-256</span>
+            </div>
+
+            <div class="meta-list">
+              <div class="meta-row">
+                <span class="meta-key">File Size</span>
+                <span class="meta-val" id="dec-info-size">4.2 MB</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Security Date</span>
+                <span class="meta-val" id="dec-info-date">2024-10-28</span>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <label class="form-label small text-muted">Ciphertext Header Stream:</label>
+              <div class="cipher-hex-viewer" id="dec-cipher-preview" style="max-height: 100px;">
+                0x8f3c...b4e1 (AES-GCM block cipher)
+              </div>
+            </div>
+          </div>
+
+          <!-- Decryption Passphrase Section (Visible after selection) -->
+          <div id="decrypt-form-section" class="card" style="display: none;">
+            <h3 class="card-title mb-3">2. Authentication & Key Verification</h3>
+
+            <div class="form-group">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label mb-0" for="decrypt-key-input">Enter Master Passphrase or Secret Key</label>
+                <button type="button" id="btn-use-demo-key" class="btn-fill-demo">
+                  <i class="bi bi-magic"></i> Use Demo Key
+                </button>
+              </div>
+              <div class="input-group">
+                <i class="bi bi-key input-icon-left"></i>
+                <input 
+                  type="password" 
+                  id="decrypt-key-input" 
+                  class="form-control has-icon-left" 
+                  placeholder="Enter access passphrase..."
+                  value=""
+                >
+                <button type="button" class="input-icon-right" id="btn-toggle-dec-pass" aria-label="Toggle password visibility">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+              <div class="form-hint">Tip: Click "Use Demo Key" to quickly test access with the verified vault key.</div>
+            </div>
+
+            <button type="button" id="btn-start-decrypt" class="btn btn-primary btn-lg mt-2" style="width: 100%;">
+              <i class="bi bi-unlock-fill"></i> Authenticate & Make Accessible
+            </button>
+          </div>
+
+          <!-- Simulation Progress (Initially Hidden) -->
+          <div id="decryption-progress-panel" class="card text-center py-4" style="display: none;">
+            <div class="spinner-border text-primary-color mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+            <h3>Making Secured Stream Accessible...</h3>
+            <p id="decryption-status-message" class="text-muted mb-3">Verifying authentication tag...</p>
+            <div class="progress-container mb-2" style="height: 8px;">
+              <div id="decryption-progress-bar" class="progress-bar" style="width: 25%;"></div>
+            </div>
+            <span id="decryption-progress-percent" class="font-mono small text-muted">25%</span>
+          </div>
+
+          <!-- Decryption Success Result (Initially Hidden) -->
+          <div id="decryption-result-panel" class="card" style="display: none; padding: 2rem;">
+            <div class="text-center mb-4">
+              <div class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle mb-3" style="width: 56px; height: 56px; font-size: 1.75rem;">
+                <i class="bi bi-check2"></i>
+              </div>
+              <h3>File Now Accessible!</h3>
+              <p class="text-muted">Key authenticated. The original plaintext and file structure have been reconstituted.</p>
+            </div>
+
+            <div class="meta-list mb-3">
+              <div class="meta-row">
+                <span class="meta-key">Accessible File</span>
+                <span class="meta-val" id="res-dec-name">Report.pdf</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Original Size</span>
+                <span class="meta-val" id="res-dec-size">4.2 MB</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Integrity Status</span>
+                <span class="meta-val text-success"><i class="bi bi-patch-check-fill"></i> Checksum Matched</span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Accessible Plaintext Preview:</label>
+              <div class="p-3 bg-light rounded border font-mono small" id="res-decrypted-content">
+                Plaintext data will appear here.
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between pt-3 border-top">
+              <a href="my-files.html" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Return to Files
+              </a>
+              <button type="button" class="btn btn-primary" id="btn-download-decrypted">
+                <i class="bi bi-download"></i> Download Accessible File
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/decryption.js"></script>
+</body>
+</html>

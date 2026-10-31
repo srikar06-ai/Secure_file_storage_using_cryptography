@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="none">
+  <!-- Gradient Shield Background -->
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0000FF" />
+      <stop offset="100%" stop-color="#0000AA" />
+    </linearGradient>
+  </defs>
+  <path d="M12 2L4 5V11.09C4 16.14 7.41 20.85 12 22C16.59 20.85 20 16.14 20 11.09V5L12 2Z" fill="url(#shieldGrad)" />
+  <!-- Lock Symbol Inside Shield -->
+  <rect x="8" y="11" width="8" height="6" rx="1.5" fill="#FFFFFF" />
+  <path d="M9.5 11V9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9V11" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" />
+  <circle cx="12" cy="14" r="1" fill="#0000FF" />
+</svg>
