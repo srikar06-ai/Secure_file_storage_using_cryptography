@@ -9,6 +9,34 @@ document.addEventListener('DOMContentLoaded', () => {
   initDropdowns();
   initModals();
   initGlobalShortcuts();
+  // Enable hitting Enter on inputs to submit or trigger primary button in forms and cards
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT')) {
+        // If inside an explicit form
+        const form = activeEl.closest('form');
+        if (form) {
+          const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+          if (submitBtn) {
+            e.preventDefault();
+            submitBtn.click();
+            return;
+          }
+        }
+        // If inside a card/container without form (e.g., upload or decrypt sections)
+        const container = activeEl.closest('.card, .auth-card, .decrypt-box');
+        if (container) {
+          const primaryBtn = container.querySelector('#btn-start-encrypt, #btn-start-decrypt, .btn-primary:not([disabled])');
+          if (primaryBtn && !primaryBtn.disabled) {
+            e.preventDefault();
+            primaryBtn.click();
+            return;
+          }
+        }
+      }
+    }
+  });
   updateUserHeaderDisplay();
 });
 

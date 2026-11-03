@@ -170,10 +170,10 @@ function startEncryptionSimulation() {
   const statusMessage = document.getElementById('encryption-status-message');
 
   const steps = [
-    { pct: 25, stepId: 'step-1', msg: 'Reading binary stream & calculating initial hash...' },
-    { pct: 50, stepId: 'step-2', msg: 'Deriving symmetric key via PBKDF2 (100,000 iterations)...' },
-    { pct: 75, stepId: 'step-3', msg: `Executing ${selectedAlgorithm} block cipher transformation...` },
-    { pct: 100, stepId: 'step-4', msg: 'Computing HMAC-SHA256 authentication tag & packing .svault container...' }
+    { pct: 25, stepId: 'step-1', msg: 'Ingesting binary stream & calculating SHA-256 integrity digest...' },
+    { pct: 50, stepId: 'step-2', msg: 'Deriving 256-bit AES key via PBKDF2 (100,000 rounds)...' },
+    { pct: 75, stepId: 'step-3', msg: 'Executing AES-256-GCM Galois/Counter mode block encryption...' },
+    { pct: 100, stepId: 'step-4', msg: 'Computing 128-bit authentication tag & securing container...' }
   ];
 
   let currentStep = 0;
@@ -185,7 +185,6 @@ function startEncryptionSimulation() {
       if (progressPercent) progressPercent.textContent = `${step.pct}%`;
       if (statusMessage) statusMessage.textContent = step.msg;
 
-      // Update step badges
       document.querySelectorAll('.pipeline-step').forEach(el => el.classList.remove('active'));
       const activeEl = document.getElementById(step.stepId);
       if (activeEl) {
@@ -200,27 +199,47 @@ function startEncryptionSimulation() {
       }
 
       currentStep++;
-      setTimeout(runNextStep, 800);
+      setTimeout(runNextStep, 500);
     } else {
-      // Completed!
-      setTimeout(finishEncryption, 600);
+      setTimeout(executeRealEncryption, 400);
     }
   }
 
   runNextStep();
 }
 
-function finishEncryption() {
+async function executeRealEncryption() {
   const progressPanel = document.getElementById('encryption-progress-panel');
   const resultPanel = document.getElementById('encryption-result-panel');
 
   if (progressPanel) progressPanel.style.display = 'none';
   if (resultPanel) resultPanel.style.display = 'block';
 
-  // Generate unique mock hashes and container
-  let fileHash = generateHex(64);
-  let cipherPreview = generateMockCiphertext(selectedFile.name);
-  let encryptedFileName = selectedFile.name + '.svault';
+  const passphraseInput = document.getElementById('custom-encryption-pass');
+  const passphrase = (passphraseInput && passphraseInput.value.trim()) || 'VaultMasterKey#2024';
+
+  let ciphertextBase64 = '';
+  let saltHex = '';
+  let ivHex = '';
+  let fileHash = '';
+
+  try {
+    const fileBuffer = await selectedFile.arrayBuffer();
+    const cryptoResult = await CryptoEngine.encryptBuffer(fileBuffer, passphrase);
+    ciphertextBase64 = cryptoResult.ciphertextBase64;
+    saltHex = cryptoResult.saltHex;
+    ivHex = cryptoResult.ivHex;
+    fileHash = cryptoResult.sha256;
+  } catch (err) {
+    console.error('Client encryption failed:', err);
+    showToast('Encryption Error', err.message, 'error');
+    return;
+  }
+
+  const encryptedFileName = selectedFile.name + '.svault';
+  const now = new Date();
+  const timestampStr = now.toLocaleString();
+  const dateStr = now.toISOString().split('T')[0];
 
   // Populate Result Card
   const elName = document.getElementById('res-file-name');
@@ -229,65 +248,51 @@ function finishEncryption() {
   const elCipher = document.getElementById('res-cipher-preview');
 
   if (elName) elName.textContent = encryptedFileName;
-  if (elAlgo) elAlgo.textContent = `${selectedAlgorithm} (GCM mode, 256-bit key)`;
+  if (elAlgo) elAlgo.textContent = 'AES-256-GCM (100k PBKDF2 rounds, 128-bit tag)';
   if (elHash) elHash.textContent = fileHash;
-  if (elCipher) elCipher.textContent = cipherPreview;
+  if (elCipher) elCipher.textContent = ciphertextBase64.substring(0, 160) + '... [ENCRYPTED BINARY PAYLOAD ' + ciphertextBase64.length + ' BYTES]';
 
-  // Try real backend API upload first if connected
-  (async () => {
-    let backendSaved = false;
-    let backendId = null;
-
-    if (typeof ApiService !== 'undefined' && ApiService.getToken()) {
-      try {
-        const uploadRes = await ApiService.uploadFile(selectedFile);
-        if (uploadRes && uploadRes.data && uploadRes.data.file) {
-          const bf = uploadRes.data.file;
-          backendSaved = true;
-          backendId = bf.id || bf._id;
-          fileHash = bf.sha256 || fileHash;
-          if (elHash) elHash.textContent = fileHash;
-          showToast('Uploaded to Cloud Vault', 'File encrypted with AES-256-GCM Envelope on backend.', 'success');
-        }
-      } catch (err) {
-        console.warn('Backend file upload deferred to local vault:', err.message);
+  // Try backend upload if authenticated
+  let backendId = null;
+  if (typeof ApiService !== 'undefined' && ApiService.getToken()) {
+    try {
+      const uploadRes = await ApiService.uploadFile(selectedFile);
+      if (uploadRes && uploadRes.data && uploadRes.data.file) {
+        backendId = uploadRes.data.file.id || uploadRes.data.file._id;
+        showToast('Uploaded to Cloud Vault', 'File stored on backend server.', 'success');
       }
+    } catch (e) {
+      console.warn('Backend upload skipped:', e.message);
     }
-
-    // Persist into StorageService for UI consistency
-    const newFileRecord = {
-      id: backendId || ('f-' + Date.now().toString().slice(-4)),
-      backendId: backendId,
-      name: selectedFile.name,
-      type: getFileTypeCategory(selectedFile.name),
-      sizeBytes: selectedFile.size,
-      sizeStr: formatBytes(selectedFile.size),
-      date: new Date().toISOString().split('T')[0],
-      status: 'Secured',
-      algorithm: selectedAlgorithm,
-      keyId: 'k-201',
-      sha256: fileHash,
-      md5: generateHex(32),
-      cipherPreview: cipherPreview,
-      accessibleSample: `Accessible plaintext content of ${selectedFile.name}. Restored in secure memory.`,
-      decryptedSample: `Accessible plaintext content of ${selectedFile.name}. Restored in secure memory.`
-    };
-
-    StorageService.saveFile(newFileRecord);
-    StorageService.addLog('File Secured', 'Secured', selectedFile.name, 'Success', `Secured with ${selectedAlgorithm}-GCM container`);
-
-    showToast('File Secured', `${encryptedFileName} secured successfully!`, 'success');
-  })();
-
-  // Setup Download Secured File action
-  const dlBtn = document.getElementById('btn-download-encrypted');
-  if (dlBtn) {
-    dlBtn.onclick = () => {
-      downloadSimulatedFile(encryptedFileName, cipherPreview, 'application/octet-stream');
-    };
   }
 
-  // Setup Make Accessible This File action
+  const newFileRecord = {
+    id: backendId || ('f-' + Date.now().toString()),
+    backendId: backendId,
+    name: selectedFile.name,
+    mimeType: selectedFile.type || 'application/octet-stream',
+    type: getFileTypeCategory(selectedFile.name),
+    sizeBytes: selectedFile.size,
+    sizeStr: formatBytes(selectedFile.size),
+    date: dateStr,
+    timestamp: timestampStr,
+    status: 'Secured',
+    algorithm: 'AES-256-GCM',
+    keyId: 'k-201',
+    sha256: fileHash,
+    ciphertextBase64: ciphertextBase64,
+    saltHex: saltHex,
+    ivHex: ivHex,
+    cipherPreview: ciphertextBase64.substring(0, 100) + '...',
+    accessibleSample: 'Original binary stream of ' + selectedFile.name,
+    decryptedSample: 'Original binary stream of ' + selectedFile.name
+  };
+
+  StorageService.saveFile(newFileRecord);
+  StorageService.addLog('File Secured', 'Secured', selectedFile.name, 'Success', `Secured with AES-256-GCM at ${timestampStr}`);
+  showToast('File Secured', `${encryptedFileName} secured and stored in vault!`, 'success');
+
+  // Test Access Now button
   const decBtn = document.getElementById('btn-decrypt-this-file');
   if (decBtn) {
     decBtn.onclick = () => {
@@ -296,9 +301,6 @@ function finishEncryption() {
   }
 }
 
-/**
- * Reset form to secure another file
- */
 function resetEncryptionForm() {
   selectedFile = null;
   const configPanel = document.getElementById('encryption-config-panel');
