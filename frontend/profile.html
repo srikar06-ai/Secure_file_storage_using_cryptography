@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - SecureVault</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <span>SecureVault</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Main Menu</span>
+        <a href="dashboard.html" class="sidebar-link">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="my-files.html" class="sidebar-link">
+          <i class="bi bi-folder2-open"></i>
+          <span>My Files</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <span>Upload & Secure</span>
+        </a>
+        <a href="decrypt.html" class="sidebar-link">
+          <i class="bi bi-unlock"></i>
+          <span>Accessible Files</span>
+        </a>
+        <a href="shared-files.html" class="sidebar-link">
+          <i class="bi bi-share"></i>
+          <span>Shared Files</span>
+        </a>
+
+        <span class="nav-section-label">Cryptography & Security</span>
+        <a href="key-management.html" class="sidebar-link">
+          <i class="bi bi-key"></i>
+          <span>Key Management</span>
+        </a>
+        <a href="activity-logs.html" class="sidebar-link">
+          <i class="bi bi-shield-shaded"></i>
+          <span>Security Logs</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="help.html" class="sidebar-link">
+          <i class="bi bi-question-circle"></i>
+          <span>Help & Docs</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-mini-profile">
+            <div class="user-avatar user-display-initials">AR</div>
+            <div class="user-mini-info">
+              <div class="user-mini-name user-display-name">Alex Rivera</div>
+              <div class="user-mini-role user-display-role">Lead Engineer</div>
+            </div>
+          </div>
+          <a href="login.html" class="btn-sidebar-logout" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Body -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button type="button" class="topbar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-root">SecureVault</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">User Profile</span>
+          </div>
+        </div>
+
+        <div class="topbar-search">
+          <i class="bi bi-search topbar-search-icon"></i>
+          <input type="text" id="global-search-input" class="form-control" placeholder="Search secured vault...">
+          <span class="topbar-search-shortcut">Ctrl K</span>
+        </div>
+
+        <div class="topbar-right">
+          <div class="user-profile-trigger active" id="profile-dropdown-btn">
+            <div class="user-avatar user-display-initials" style="width: 32px; height: 32px; font-size: 0.8rem;">AR</div>
+            <span class="user-display-name fw-semibold d-none d-md-inline" style="font-size: 0.875rem;">Alex Rivera</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-header-row">
+          <div class="page-title-group">
+            <h1>Cryptographic Profile & Identity</h1>
+            <p>Manage your account credentials, security clearance, and zero-knowledge ownership.</p>
+          </div>
+        </div>
+
+        <div class="row" style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 1.75rem;">
+          <!-- Profile Identity Card -->
+          <div class="card text-center p-4">
+            <div class="user-avatar user-display-initials mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+              AR
+            </div>
+            <h3 class="user-display-name mb-1">Alex Rivera</h3>
+            <p class="text-muted small user-display-email mb-2">alex.rivera@securevault.io</p>
+            <span class="badge badge-primary mx-auto mb-4" id="profile-plan-badge">Enterprise Tier (Zero-Knowledge)</span>
+
+            <div class="meta-list text-start mb-4">
+              <div class="meta-row">
+                <span class="meta-key">Account Provisioned</span>
+                <span class="meta-val" id="profile-joined-date">October 12, 2024</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Total Files Stored</span>
+                <span class="meta-val" id="profile-total-files">8</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Total Secured Files</span>
+                <span class="meta-val text-success" id="profile-encrypted-files">6</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-key">Security Keypair</span>
+                <span class="meta-val font-mono small">4a:7b:99:c2 (Active)</span>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary btn-sm" onclick="showToast('Avatar Update', 'Profile photo avatar is derived from cryptographic initials.', 'info')">
+              <i class="bi bi-camera"></i> Change Photo
+            </button>
+          </div>
+
+          <!-- Edit Profile Form Card -->
+          <div class="card p-4">
+            <h3 class="card-title mb-3">Edit Profile Information</h3>
+
+            <form id="form-edit-profile">
+              <div class="form-group">
+                <label class="form-label" for="profile-edit-name">Full Name</label>
+                <input type="text" id="profile-edit-name" class="form-control" value="Alex Rivera" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profile-edit-email">Email Address</label>
+                <input type="email" id="profile-edit-email" class="form-control" value="alex.rivera@securevault.io" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profile-edit-role">Job Title / Security Role</label>
+                <input type="text" id="profile-edit-role" class="form-control" value="Lead Cryptography Engineer" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profile-edit-bio">Bio & Security Clearance</label>
+                <textarea id="profile-edit-bio" class="form-control" rows="3">Specializing in elliptic-curve cryptography and high-throughput zero-knowledge data pipelines.</textarea>
+              </div>
+
+              <div class="d-flex justify-content-end gap-2 pt-2">
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-save"></i> Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>
+

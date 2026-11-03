@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account - SecureVault</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <a href="index.html" class="brand-logo auth-logo-link">
+          <div class="brand-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <span>SecureVault</span>
+        </a>
+        <h2>Create Secure Vault</h2>
+        <p>Set up client-side cryptographic keys for your files</p>
+      </div>
+
+      <!-- Signup Form -->
+      <form id="signup-form" class="auth-form" novalidate>
+        <!-- Full Name -->
+        <div class="form-group">
+          <label class="form-label" for="signup-name">Full Name</label>
+          <div class="input-group">
+            <i class="bi bi-person input-icon-left"></i>
+            <input 
+              type="text" 
+              id="signup-name" 
+              class="form-control has-icon-left" 
+              placeholder="Alex Rivera" 
+              required
+            >
+          </div>
+          <div class="invalid-feedback">Please enter your full name.</div>
+        </div>
+
+        <!-- Email Address -->
+        <div class="form-group">
+          <label class="form-label" for="signup-email">Work / Personal Email</label>
+          <div class="input-group">
+            <i class="bi bi-envelope input-icon-left"></i>
+            <input 
+              type="email" 
+              id="signup-email" 
+              class="form-control has-icon-left" 
+              placeholder="alex.rivera@company.com" 
+              required
+            >
+          </div>
+          <div class="invalid-feedback">Please enter a valid email address.</div>
+        </div>
+
+        <!-- Master Password -->
+        <div class="form-group">
+          <label class="form-label" for="signup-password">Master Passphrase</label>
+          <div class="input-group">
+            <i class="bi bi-key input-icon-left"></i>
+            <input 
+              type="password" 
+              id="signup-password" 
+              class="form-control has-icon-left" 
+              placeholder="Create strong passphrase" 
+              required
+            >
+            <button type="button" class="input-icon-right btn-toggle-password" data-target="signup-password" aria-label="Toggle password visibility">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+          <div class="invalid-feedback">Password is too weak.</div>
+
+          <!-- Password Strength Indicator -->
+          <div class="password-strength-box">
+            <div class="strength-meter">
+              <div class="strength-bar"></div>
+              <div class="strength-bar"></div>
+              <div class="strength-bar"></div>
+              <div class="strength-bar"></div>
+            </div>
+            <div class="strength-text">
+              <span>Entropy Strength:</span>
+              <span id="strength-label" class="strength-val">None</span>
+            </div>
+          </div>
+          <div class="form-hint">Tip: Use 8+ characters with uppercase, numbers, and symbols.</div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label class="form-label" for="signup-confirm-password">Confirm Passphrase</label>
+          <div class="input-group">
+            <i class="bi bi-shield-check input-icon-left"></i>
+            <input 
+              type="password" 
+              id="signup-confirm-password" 
+              class="form-control has-icon-left" 
+              placeholder="Re-enter passphrase" 
+              required
+            >
+            <button type="button" class="input-icon-right btn-toggle-password" data-target="signup-confirm-password" aria-label="Toggle password visibility">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+          <div class="invalid-feedback">Passwords do not match.</div>
+        </div>
+
+        <!-- Terms Checkbox -->
+        <div class="form-group">
+          <label class="form-check">
+            <input type="checkbox" id="signup-terms" required>
+            <span>I agree to the <a href="javascript:void(0)" onclick="showToast('Terms', 'SecureVault security terms of service.', 'info')">Terms of Service</a> & <a href="javascript:void(0)" onclick="showToast('Privacy', 'Zero-knowledge privacy policy.', 'info')">Privacy Policy</a></span>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+          <i class="bi bi-shield-plus"></i> Initialize Vault & Create Account
+        </button>
+      </form>
+
+      <!-- Navigation to Login -->
+      <div class="auth-footer">
+        Already have a vault? 
+        <a href="login.html">Sign In Here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
+

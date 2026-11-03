@@ -1,0 +1,31 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment and sensitive secrets
+.env
+.env.local
+.env.*.local
+
+# Replica set internal keyfile
+mongo-keyfile
+mongo-keyfile*
+
+# Database storage volumes
+data/
+db-data/
+mongodb_data/
+
+# Testing and coverage artifacts
+coverage/
+.vitest/
+
+# Logs
+logs/
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db

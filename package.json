@@ -1,0 +1,25 @@
+{
+  "name": "secure-file-storage-using-cryptography",
+  "version": "1.0.0",
+  "description": "Secure File Storage using Cryptography (AES-256-GCM Envelope Encryption) - Integrated Full-Stack Application",
+  "scripts": {
+    "start": "node backend/server.js",
+    "backend": "node backend/server.js",
+    "frontend": "node frontend/serve.js",
+    "dev:backend": "nodemon backend/server.js",
+    "test": "cd backend && npm test",
+    "test:crypto": "cd backend && npx jest tests/crypto.test.js",
+    "install:all": "npm install --prefix backend"
+  },
+  "keywords": [
+    "cryptography",
+    "aes-256-gcm",
+    "envelope-encryption",
+    "secure-storage",
+    "express",
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "CRYPTO6 MSD Team",
+  "license": "ISC"
+}

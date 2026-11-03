@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Files - SecureVault File Management</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <span>SecureVault</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Main Menu</span>
+        <a href="dashboard.html" class="sidebar-link">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="my-files.html" class="sidebar-link active">
+          <i class="bi bi-folder2-open"></i>
+          <span>My Files</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <span>Upload & Secure</span>
+        </a>
+        <a href="decrypt.html" class="sidebar-link">
+          <i class="bi bi-unlock"></i>
+          <span>Accessible Files</span>
+        </a>
+        <a href="shared-files.html" class="sidebar-link">
+          <i class="bi bi-share"></i>
+          <span>Shared Files</span>
+        </a>
+
+        <span class="nav-section-label">Cryptography & Security</span>
+        <a href="key-management.html" class="sidebar-link">
+          <i class="bi bi-key"></i>
+          <span>Key Management</span>
+        </a>
+        <a href="activity-logs.html" class="sidebar-link">
+          <i class="bi bi-shield-shaded"></i>
+          <span>Security Logs</span>
+        </a>
+        <a href="settings.html" class="sidebar-link">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="help.html" class="sidebar-link">
+          <i class="bi bi-question-circle"></i>
+          <span>Help & Docs</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-mini-profile">
+            <div class="user-avatar user-display-initials">AR</div>
+            <div class="user-mini-info">
+              <div class="user-mini-name user-display-name">Alex Rivera</div>
+              <div class="user-mini-role user-display-role">Lead Engineer</div>
+            </div>
+          </div>
+          <a href="login.html" class="btn-sidebar-logout" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- App Main Body -->
+    <div class="app-main">
+      <!-- Topbar Navigation -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button type="button" class="topbar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-root">SecureVault</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">My Files</span>
+          </div>
+        </div>
+
+        <div class="topbar-search">
+          <i class="bi bi-search topbar-search-icon"></i>
+          <input type="text" id="global-search-input" class="form-control" placeholder="Search secured vault...">
+          <span class="topbar-search-shortcut">Ctrl K</span>
+        </div>
+
+        <div class="topbar-right">
+          <div class="user-profile-trigger" id="profile-dropdown-btn">
+            <div class="user-avatar user-display-initials" style="width: 32px; height: 32px; font-size: 0.8rem;">AR</div>
+            <span class="user-display-name fw-semibold d-none d-md-inline" style="font-size: 0.875rem;">Alex Rivera</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="app-content">
+        <div class="page-header-row">
+          <div class="page-title-group">
+            <h1>Secured Vault Files</h1>
+            <p>Manage, access, download, or share your zero-knowledge protected documents.</p>
+          </div>
+          <div class="page-actions-group">
+            <a href="upload.html" class="btn btn-primary">
+              <i class="bi bi-cloud-arrow-up"></i> Upload & Secure
+            </a>
+          </div>
+        </div>
+
+        <!-- Controls Bar: Search, Filters, Sorters, Grid/List Switch -->
+        <div class="files-control-bar">
+          <div class="files-filters">
+            <!-- Search input -->
+            <div class="input-group" style="width: 260px;">
+              <i class="bi bi-search input-icon-left"></i>
+              <input 
+                type="text" 
+                id="files-search-input" 
+                class="form-control has-icon-left" 
+                placeholder="Search file name or algo..."
+              >
+            </div>
+
+            <!-- Type Filter -->
+            <select id="files-filter-type" class="form-control" style="width: 140px;">
+              <option value="all">All Types</option>
+              <option value="pdf">PDF Documents</option>
+              <option value="doc">Documents</option>
+              <option value="image">Images</option>
+              <option value="sheet">Spreadsheets</option>
+              <option value="archive">Archives</option>
+            </select>
+
+            <!-- Status Filter -->
+            <select id="files-filter-status" class="form-control" style="width: 140px;">
+              <option value="all">All Statuses</option>
+              <option value="secured">Secured</option>
+              <option value="accessible">Accessible</option>
+            </select>
+
+            <!-- Sorting Select -->
+            <select id="files-sort-select" class="form-control" style="width: 160px;">
+              <option value="date-desc">Newest First</option>
+              <option value="date-asc">Oldest First</option>
+              <option value="name-asc">Name (A - Z)</option>
+              <option value="name-desc">Name (Z - A)</option>
+              <option value="size-desc">Size (Largest)</option>
+              <option value="size-asc">Size (Smallest)</option>
+            </select>
+          </div>
+
+          <!-- View Mode Switcher -->
+          <div class="files-view-toggle">
+            <button type="button" class="btn-view-toggle active" id="btn-view-list" title="List View">
+              <i class="bi bi-list-ul"></i>
+            </button>
+            <button type="button" class="btn-view-toggle" id="btn-view-grid" title="Grid View">
+              <i class="bi bi-grid"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- List View (Table) -->
+        <div id="files-list-container" class="card p-0">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>File Name</th>
+                  <th>Type</th>
+                  <th>Size</th>
+                  <th>Upload Date</th>
+                  <th>Security Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="files-table-tbody">
+                <!-- Rendered by files.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Grid View (Cards Container) -->
+        <div id="files-grid-container" class="files-grid-view" style="display: none;">
+          <!-- Rendered by files.js -->
+        </div>
+
+        <!-- Empty State (When search/filters return 0 files) -->
+        <div id="files-empty-state" class="empty-state card" style="display: none;">
+          <div class="empty-state-icon">
+            <i class="bi bi-folder-x"></i>
+          </div>
+          <h4>No matching files found</h4>
+          <p class="text-muted">No files in your secured vault match your current search criteria or filters.</p>
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('files-search-input').value = ''; document.getElementById('files-filter-type').value = 'all'; document.getElementById('files-filter-status').value = 'all'; renderFiles();">
+            Reset Filters
+          </button>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination" id="files-pagination">
+          <div class="text-muted" id="pagination-info">Showing 1 to 6 of 8 files</div>
+          <div class="pagination-pages" id="pagination-pages-list">
+            <!-- Dynamically generated pages -->
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Delete File Confirmation Modal -->
+  <div class="modal-backdrop" id="modal-delete-file">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm File Shredding</h3>
+        <button class="modal-close" onclick="closeModal('modal-delete-file')">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to permanently delete and cryptographically shred:</p>
+        <div class="p-3 bg-light rounded border font-mono small text-break my-3" id="delete-file-name-placeholder">
+          filename.pdf
+        </div>
+        <p class="text-muted small">
+          <strong>Warning:</strong> Cryptographic shredding overwrites container blocks with pseudorandom noise. This action cannot be reversed.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-delete-file')">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-delete">
+          <i class="bi bi-trash-fill"></i> Shred & Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Share Modal -->
+  <div class="modal-backdrop" id="modal-quick-share">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="bi bi-share-fill text-primary-color me-2"></i> Share File Securely</h3>
+        <button class="modal-close" onclick="closeModal('modal-quick-share')">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <form id="quick-share-form">
+        <div class="modal-body">
+          <input type="hidden" id="quick-share-file-id">
+          <div class="mb-3">
+            <span class="text-muted small">Target File:</span>
+            <div class="fw-bold" id="quick-share-filename-display">filename.pdf</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="quick-share-email">Recipient Email Address</label>
+            <input type="email" id="quick-share-email" class="form-control" placeholder="colleague@company.com" required>
+          </div>
+
+          <div class="row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="quick-share-permission">Permission</label>
+              <select id="quick-share-permission" class="form-control">
+                <option value="View Only">View Only</option>
+                <option value="Download">Download</option>
+                <option value="Full Access">Full Access</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="quick-share-expiry">Link Expiration</label>
+              <input type="date" id="quick-share-expiry" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="security-alert mb-0">
+            <i class="bi bi-shield-lock-fill"></i>
+            <div class="security-alert-text">
+              <h4>End-to-End Secured</h4>
+              <p>Recipient receives unique key-wrapped link that enforces selected expiration.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-quick-share')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Generate Share Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/files.js"></script>
+</body>
+</html>
+

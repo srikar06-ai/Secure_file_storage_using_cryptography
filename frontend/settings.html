@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Settings - SecureVault</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <span>SecureVault</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Main Menu</span>
+        <a href="dashboard.html" class="sidebar-link">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="my-files.html" class="sidebar-link">
+          <i class="bi bi-folder2-open"></i>
+          <span>My Files</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <span>Upload & Secure</span>
+        </a>
+        <a href="decrypt.html" class="sidebar-link">
+          <i class="bi bi-unlock"></i>
+          <span>Accessible Files</span>
+        </a>
+        <a href="shared-files.html" class="sidebar-link">
+          <i class="bi bi-share"></i>
+          <span>Shared Files</span>
+        </a>
+
+        <span class="nav-section-label">Cryptography & Security</span>
+        <a href="key-management.html" class="sidebar-link">
+          <i class="bi bi-key"></i>
+          <span>Key Management</span>
+        </a>
+        <a href="activity-logs.html" class="sidebar-link">
+          <i class="bi bi-shield-shaded"></i>
+          <span>Security Logs</span>
+        </a>
+        <a href="settings.html" class="sidebar-link active">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="help.html" class="sidebar-link">
+          <i class="bi bi-question-circle"></i>
+          <span>Help & Docs</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-mini-profile">
+            <div class="user-avatar user-display-initials">AR</div>
+            <div class="user-mini-info">
+              <div class="user-mini-name user-display-name">Alex Rivera</div>
+              <div class="user-mini-role user-display-role">Lead Engineer</div>
+            </div>
+          </div>
+          <a href="login.html" class="btn-sidebar-logout" title="Sign Out">
+            <i class="bi bi-box-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Body -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button type="button" class="topbar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-root">SecureVault</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Settings</span>
+          </div>
+        </div>
+
+        <div class="topbar-search">
+          <i class="bi bi-search topbar-search-icon"></i>
+          <input type="text" id="global-search-input" class="form-control" placeholder="Search secured vault...">
+          <span class="topbar-search-shortcut">Ctrl K</span>
+        </div>
+
+        <div class="topbar-right">
+          <div class="user-profile-trigger" id="profile-dropdown-btn">
+            <div class="user-avatar user-display-initials" style="width: 32px; height: 32px; font-size: 0.8rem;">AR</div>
+            <span class="user-display-name fw-semibold d-none d-md-inline" style="font-size: 0.875rem;">Alex Rivera</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-header-row">
+          <div class="page-title-group">
+            <h1>Vault Security Settings</h1>
+            <p>Configure authentication, cryptographic algorithms, session management, and security policies.</p>
+          </div>
+          <div class="page-actions-group">
+            <button type="button" class="btn btn-outline-danger" id="btn-reset-demo-data">
+              <i class="bi bi-arrow-counterclockwise"></i> Reset Demo State
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 1: Cryptographic & Vault Policies Form -->
+        <form id="form-security-settings">
+          <div class="settings-section">
+            <h3 class="settings-section-title">Cryptographic & Vault Policies</h3>
+            <p class="settings-section-desc">Manage how files are processed, secured, and isolated in your browser.</p>
+
+            <!-- 2FA -->
+            <div class="settings-row">
+              <div class="settings-info">
+                <h4>Two-Factor Authentication (2FA)</h4>
+                <p>Enforce Time-based One-Time Passwords (TOTP) or WebAuthn FIDO2 keys when unlocking your vault.</p>
+              </div>
+              <label class="form-switch">
+                <input type="checkbox" id="setting-2fa" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <!-- Auto Logout -->
+            <div class="settings-row">
+              <div class="settings-info">
+                <h4>Inactivity Auto-Logout</h4>
+                <p>Purge memory security keys when vault remains idle for this duration.</p>
+              </div>
+              <select id="setting-auto-logout" class="form-control" style="width: 160px;">
+                <option value="15">15 Minutes</option>
+                <option value="30">30 Minutes</option>
+                <option value="60">1 Hour</option>
+                <option value="never">Never (Testing)</option>
+              </select>
+            </div>
+
+            <!-- Password Protection -->
+            <div class="settings-row">
+              <div class="settings-info">
+                <h4>Enforce Passphrase on Download</h4>
+                <p>Require master password verification before making files accessible during export.</p>
+              </div>
+              <label class="form-switch">
+                <input type="checkbox" id="setting-pass-protect" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <!-- Default Algorithm -->
+            <div class="settings-row">
+              <div class="settings-info">
+                <h4>Default Security Algorithm</h4>
+                <p>Default block cipher applied when uploading new documents.</p>
+              </div>
+              <select id="setting-default-algo" class="form-control" style="width: 220px;">
+                <option value="AES-256">AES-256 (GCM Mode - Standard)</option>
+                <option value="AES-128">AES-128 (Faster)</option>
+                <option value="ChaCha20-Poly1305">ChaCha20-Poly1305 (AEAD)</option>
+              </select>
+            </div>
+
+            <!-- Automatic Securing -->
+            <div class="settings-row">
+              <div class="settings-info">
+                <h4>Automatic File Securing</h4>
+                <p>Automatically secure dragged files immediately without requiring manual configuration.</p>
+              </div>
+              <label class="form-switch">
+                <input type="checkbox" id="setting-auto-encrypt" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <!-- Save Settings Button -->
+            <div class="pt-3 text-end">
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-lg"></i> Save Security Policies
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Section 2: Active Sessions Management -->
+        <div class="settings-section">
+          <h3 class="settings-section-title">Session Management</h3>
+          <p class="settings-section-desc">Inspect devices and browser instances with active cryptographic tokens.</p>
+
+          <div class="session-item">
+            <div class="session-info">
+              <i class="bi bi-laptop session-icon text-primary-color"></i>
+              <div>
+                <strong>Chrome on Windows 11</strong> <span class="badge badge-success ms-2">Current Session</span>
+                <div class="text-muted small">IP: 192.168.1.45 &bull; Active Now &bull; Client TLS 1.3</div>
+              </div>
+            </div>
+            <span class="badge badge-primary">Active</span>
+          </div>
+
+          <div class="session-item">
+            <div class="session-info">
+              <i class="bi bi-phone session-icon"></i>
+              <div>
+                <strong>Safari on iPhone 15 Pro</strong>
+                <div class="text-muted small">IP: 104.28.19.82 &bull; Active 3 hours ago &bull; Cupertino, CA</div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-outline-danger btn-sm btn-revoke-session">
+              <i class="bi bi-x-circle"></i> Revoke
+            </button>
+          </div>
+
+          <div class="session-item">
+            <div class="session-info">
+              <i class="bi bi-display session-icon"></i>
+              <div>
+                <strong>Firefox on macOS Sonoma</strong>
+                <div class="text-muted small">IP: 73.189.44.11 &bull; Active 2 days ago &bull; Austin, TX</div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-outline-danger btn-sm btn-revoke-session">
+              <i class="bi bi-x-circle"></i> Revoke
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 3: Change Password -->
+        <div class="settings-section">
+          <h3 class="settings-section-title">Change Master Passphrase</h3>
+          <p class="settings-section-desc">Rotate the primary passphrase used to derive your vault master key.</p>
+
+          <form id="form-change-password" style="max-width: 520px;">
+            <div class="form-group">
+              <label class="form-label" for="current-password">Current Passphrase</label>
+              <input type="password" id="current-password" class="form-control" placeholder="••••••••••••" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="new-password">New Master Passphrase</label>
+              <input type="password" id="new-password" class="form-control" placeholder="Min 8 chars with symbols" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="confirm-new-password">Confirm New Passphrase</label>
+              <input type="password" id="confirm-new-password" class="form-control" placeholder="Re-enter new passphrase" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-key-fill"></i> Rotate Master Passphrase
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>
+
