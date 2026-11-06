@@ -31,11 +31,13 @@ const ApiService = {
       localStorage.setItem(API_CONFIG.USER_KEY, JSON.stringify(user));
       // Keep legacy storage key synced for existing UI scripts
       if (typeof StorageService !== 'undefined') {
+        const initials = user.name ? user.name.split(' ').map(n=>n[0]).join('').substring(0, 2).toUpperCase() : 'U';
         StorageService.setUser({
           name: user.name || user.email?.split('@')[0],
           email: user.email,
           role: user.role || 'Cryptographic Engineer',
-          avatar: user.name ? user.name.split(' ').map(n=>n[0]).join('').toUpperCase() : 'U'
+          avatar: initials,
+          avatarInitials: initials
         });
       }
     }
@@ -67,21 +69,30 @@ const ApiService = {
   },
 
   /**
-   * Check backend server connectivity
+   * Check backend server connectivity (tries configured port, then 5001/5000 if needed)
    */
   async checkBackendHealth() {
-    try {
-      const res = await fetch(`${API_CONFIG.BASE_URL}/health`, {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' }
-      });
-      if (res.ok) {
-        API_CONFIG.IS_BACKEND_AVAILABLE = true;
-        return true;
+    const urlsToTry = [
+      API_CONFIG.BASE_URL,
+      'http://localhost:5001/api',
+      'http://localhost:5000/api'
+    ];
+    for (const baseUrl of urlsToTry) {
+      try {
+        const res = await fetch(`${baseUrl}/health`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          API_CONFIG.BASE_URL = baseUrl;
+          API_CONFIG.IS_BACKEND_AVAILABLE = true;
+          return true;
+        }
+      } catch (err) {
+        // try next candidate
       }
-    } catch (err) {
-      API_CONFIG.IS_BACKEND_AVAILABLE = false;
     }
+    API_CONFIG.IS_BACKEND_AVAILABLE = false;
     return false;
   },
 
@@ -132,9 +143,10 @@ const ApiService = {
   // Auth API Endpoints
   // ─────────────────────────────────────────────────────────────
   async register(name, email, password) {
+    const cleanUsername = (name || '').trim().replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30) || (email.split('@')[0]);
     return this.request('/auth/register', {
       method: 'POST',
-      body: { name, email, password }
+      body: { name, username: cleanUsername, email, password }
     });
   },
 
@@ -214,6 +226,16 @@ const ApiService = {
 
   async deleteFile(fileId) {
     return this.request(`/files/${fileId}`, { method: 'DELETE' });
+  },
+
+  async restoreFile(fileId) {
+    return this.request(`/files/${fileId}/restore`, { method: 'POST' });
+  },
+
+  async listDeletedFiles(params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const endpoint = query ? `/files/trash/list?${query}` : '/files/trash/list';
+    return this.request(endpoint, { method: 'GET' });
   },
 
   // ─────────────────────────────────────────────────────────────

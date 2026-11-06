@@ -7,9 +7,11 @@
  */
 
 const dotenv = require('dotenv');
+const fs = require('fs');
 const path = require('path');
 
-// Load environment variables from .env file
+// Load environment variables from .env file (support running from root or backend directory)
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -26,9 +28,18 @@ const JWT_SECRET = process.env.JWT_SECRET || (NODE_ENV === 'test' ? 'test_jwt_se
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
 
 // Storage Configuration
-const STORAGE_PATH = process.env.STORAGE_PATH
-  ? path.resolve(process.cwd(), process.env.STORAGE_PATH)
-  : path.resolve(process.cwd(), 'storage/encrypted');
+const defaultStoragePath = path.resolve(__dirname, '../../storage/encrypted');
+let resolvedStoragePath = defaultStoragePath;
+if (process.env.STORAGE_PATH) {
+  if (path.isAbsolute(process.env.STORAGE_PATH)) {
+    resolvedStoragePath = process.env.STORAGE_PATH;
+  } else {
+    const cwdCandidate = path.resolve(process.cwd(), process.env.STORAGE_PATH);
+    const backendCandidate = path.resolve(__dirname, '../../', process.env.STORAGE_PATH.replace(/^(\.\/)?backend\/?/, ''));
+    resolvedStoragePath = fs.existsSync(cwdCandidate) ? cwdCandidate : (fs.existsSync(backendCandidate) ? backendCandidate : cwdCandidate);
+  }
+}
+const STORAGE_PATH = resolvedStoragePath;
 
 const MAX_FILE_SIZE_BYTES = parseInt(process.env.MAX_FILE_SIZE_BYTES, 10) || 50 * 1024 * 1024; // 50MB
 

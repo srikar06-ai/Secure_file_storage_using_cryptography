@@ -146,11 +146,56 @@ async function purgeFile(req, res, next) {
   }
 }
 
+/**
+ * Restore a soft-deleted file
+ * POST /api/files/:id/restore
+ */
+async function restoreFile(req, res, next) {
+  try {
+    const { id } = req.params;
+    const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
+    const userAgent = req.get('user-agent') || 'unknown';
+
+    const result = await fileService.restoreFile({
+      fileId: id,
+      user: req.user,
+      ipAddress,
+      userAgent
+    });
+
+    return sendSuccess(res, result.message, result.file, 200);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+/**
+ * List deleted files in trash
+ * GET /api/files/trash/list
+ */
+async function listDeletedFiles(req, res, next) {
+  try {
+    const { page = 1, limit = 20 } = req.query;
+
+    const result = await fileService.listDeletedFiles({
+      user: req.user,
+      page: Number(page),
+      limit: Number(limit)
+    });
+
+    return sendSuccess(res, 'Deleted files retrieved.', result, 200);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   upload,
   download,
   listFiles,
   getFileMetadata,
   deleteFile,
-  purgeFile
+  purgeFile,
+  restoreFile,
+  listDeletedFiles
 };

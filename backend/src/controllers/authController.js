@@ -15,7 +15,13 @@ const { sendSuccess } = require('../utils/responseUtils');
  */
 async function register(req, res, next) {
   try {
-    const { username, email, password, role } = req.body;
+    let { username, name, email, password, role } = req.body;
+    if (!username && name) {
+      username = name.trim().replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
+      if (username.length < 3) {
+        username = (email.split('@')[0].replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + Math.random().toString(36).substring(2, 5)).substring(0, 30);
+      }
+    }
     const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
     const userAgent = req.get('user-agent') || 'unknown';
 

@@ -121,7 +121,12 @@ async function createShare({
 
   // Re-wrap DEK specifically for this share grant (not using master KEK directly)
   // This provides cryptographic isolation: revoking a share doesn't require re-encryption
-  const recipientWrappedKey = cryptoService.wrapKey(rawDEK);
+  let recipientWrappedKey;
+  try {
+    recipientWrappedKey = cryptoService.wrapKey(rawDEK);
+  } finally {
+    rawDEK.fill(0);
+  }
 
   // Compute expiration timestamp
   let expiresAt = null;

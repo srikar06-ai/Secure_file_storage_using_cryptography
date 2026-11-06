@@ -266,6 +266,9 @@ async function executeRealEncryption() {
     }
   }
 
+  const keyDisplay = document.getElementById('generated-key-display');
+  const currentKeyHex = (keyDisplay && keyDisplay.value.trim()) || '0x8f3c9e12b7a456d98c21e0f3456789abcdef0123456789abcdef0123456789ab';
+
   const newFileRecord = {
     id: backendId || ('f-' + Date.now().toString()),
     backendId: backendId,
@@ -279,6 +282,8 @@ async function executeRealEncryption() {
     status: 'Secured',
     algorithm: 'AES-256-GCM',
     keyId: 'k-201',
+    keyHex: currentKeyHex,
+    storedPassphrase: (passphrase !== 'VaultMasterKey#2024') ? passphrase : '',
     sha256: fileHash,
     ciphertextBase64: ciphertextBase64,
     saltHex: saltHex,
@@ -288,9 +293,26 @@ async function executeRealEncryption() {
     decryptedSample: 'Original binary stream of ' + selectedFile.name
   };
 
+  // Cache binary ciphertext in VaultBinaryStore
+  if (typeof VaultBinaryStore !== 'undefined') {
+    VaultBinaryStore.set(newFileRecord.id, ciphertextBase64);
+  }
+
   StorageService.saveFile(newFileRecord);
   StorageService.addLog('File Secured', 'Secured', selectedFile.name, 'Success', `Secured with AES-256-GCM at ${timestampStr}`);
   showToast('File Secured', `${encryptedFileName} secured and stored in vault!`, 'success');
+
+  // Wire up Download Secured (.svault) button
+  const dlEncBtn = document.getElementById('btn-download-encrypted');
+  if (dlEncBtn) {
+    dlEncBtn.onclick = () => {
+      if (typeof VaultContainer !== 'undefined') {
+        VaultContainer.download(newFileRecord);
+      } else {
+        downloadSimulatedFile(encryptedFileName, ciphertextBase64, 'application/octet-stream');
+      }
+    };
+  }
 
   // Test Access Now button
   const decBtn = document.getElementById('btn-decrypt-this-file');

@@ -25,6 +25,32 @@ try {
 
 // Connect to MongoDB then start HTTP server
 let server;
+function listenWithFallback(port, maxAttempts = 5) {
+  server = app.listen(port, () => {
+    console.log(`
+======================================================================
+  SECURE FILE STORAGE USING CRYPTOGRAPHY - CRYPTO6 MSD
+  Architecture: Envelope Encryption (AES-256-GCM + SHA-256)
+======================================================================
+  🚀 Status:        Server is actively running
+  🌐 Port:          ${port}
+  🛠️  Environment:   ${NODE_ENV}
+  🩺 Health Check:  http://localhost:${port}/api/health
+  📁 Storage Path:  ${STORAGE_PATH}
+======================================================================
+    `);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE' && maxAttempts > 0) {
+      console.warn(`⚠️ [Port ${port} in use] Retrying on port ${port + 1}...`);
+      listenWithFallback(port + 1, maxAttempts - 1);
+    } else {
+      console.error('🚨 [Server Error]:', err.message);
+    }
+  });
+}
+
 async function startServer() {
   try {
     await connectDB();
@@ -32,20 +58,7 @@ async function startServer() {
     console.warn('⚠️ [MongoDB] Starting server without initial DB connection (will retry)...');
   }
 
-  server = app.listen(PORT, () => {
-    console.log(`
-======================================================================
-  SECURE FILE STORAGE USING CRYPTOGRAPHY - CRYPTO6 MSD
-  Architecture: Envelope Encryption (AES-256-GCM + SHA-256)
-======================================================================
-  🚀 Status:        Server is actively running
-  🌐 Port:          ${PORT}
-  🛠️  Environment:   ${NODE_ENV}
-  🩺 Health Check:  http://localhost:${PORT}/api/health
-  📁 Storage Path:  ${STORAGE_PATH}
-======================================================================
-    `);
-  });
+  listenWithFallback(PORT);
 }
 
 startServer();

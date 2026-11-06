@@ -29,6 +29,20 @@ router.post('/upload', authenticate, uploadSingle, fileController.upload);
 router.get('/', authenticate, fileController.listFiles);
 
 /**
+ * @route   GET /api/files/trash/list
+ * @desc    List all soft-deleted files
+ * @access  Protected
+ */
+router.get('/trash/list', authenticate, fileController.listDeletedFiles);
+
+/**
+ * @route   POST /api/files/:id/restore
+ * @desc    Restore a soft-deleted file
+ * @access  Protected
+ */
+router.post('/:id/restore', authenticate, fileController.restoreFile);
+
+/**
  * @route   GET /api/files/:id
  * @desc    Get metadata for a single file (owner or authorized share recipient)
  * @access  Protected

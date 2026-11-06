@@ -25,6 +25,7 @@ const createShareSchema = Joi.object({
     .lowercase()
     .trim()
     .optional()
+    .allow('', null)
     .messages({
       'string.email': 'recipientEmail must be a valid email address.'
     }),

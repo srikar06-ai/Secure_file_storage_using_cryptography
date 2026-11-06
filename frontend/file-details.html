@@ -131,15 +131,18 @@
             <p id="detail-subtext" class="text-muted">Uploaded on October 28, 2024 &bull; Verified integrity</p>
           </div>
 
-          <div class="page-actions-group">
+          <div class="page-actions-group d-flex flex-wrap gap-2">
             <button type="button" class="btn btn-secondary" id="btn-detail-share">
               <i class="bi bi-share"></i> Share
+            </button>
+            <button type="button" class="btn btn-secondary" id="btn-detail-download-container" title="Download Secured Container (.svault)">
+              <i class="bi bi-shield-lock"></i> Download Container (.svault)
             </button>
             <button type="button" class="btn btn-primary" id="btn-detail-decrypt-or-dl">
               <i class="bi bi-unlock"></i> Make Accessible
             </button>
             <button type="button" class="btn btn-outline-danger" id="btn-detail-delete">
-              <i class="bi bi-trash"></i> Delete
+              <i class="bi bi-trash"></i> Move to Recovery Bin
             </button>
           </div>
         </div>
@@ -259,7 +262,17 @@
       }
 
       if (!file) {
-        showToast('File Not Found', 'Could not locate file metadata.', 'error');
+        showToast('File Not Found', 'Could not locate file metadata.', 'warning');
+        document.getElementById('detail-filename').textContent = 'No File Selected';
+        document.getElementById('detail-subtext').textContent = 'No file matching the requested ID was found in your vault.';
+        const actionBtn = document.getElementById('btn-detail-decrypt-or-dl');
+        if (actionBtn) actionBtn.style.display = 'none';
+        const deleteBtn = document.getElementById('btn-detail-delete');
+        if (deleteBtn) deleteBtn.style.display = 'none';
+        const shareBtn = document.getElementById('btn-detail-share');
+        if (shareBtn) shareBtn.style.display = 'none';
+        const dlContainerBtn = document.getElementById('btn-detail-download-container');
+        if (dlContainerBtn) dlContainerBtn.style.display = 'none';
         return;
       }
 
@@ -290,11 +303,60 @@
       } else {
         statusBadge.className = 'badge badge-success';
         statusBadge.innerHTML = `<i class="bi bi-unlock-fill"></i> Accessible`;
-        actionBtn.innerHTML = `<i class="bi bi-download"></i> Download Accessible`;
-        actionBtn.onclick = () => { downloadSimulatedFile(file.name, file.accessibleSample || file.decryptedSample || 'Plaintext content.'); };
+        actionBtn.innerHTML = `<i class="bi bi-download"></i> Download Recovered File`;
+        actionBtn.onclick = async () => {
+          const cachedBlob = typeof VaultBinaryStore !== 'undefined' ? VaultBinaryStore.get(`decrypted_${file.id}`) : null;
+          if (cachedBlob instanceof Blob) {
+            const url = URL.createObjectURL(cachedBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = file.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            showToast('Download Started', `Downloading ${file.name}`, 'success');
+            return;
+          }
+          if (file.ciphertextBase64 && file.saltHex && file.ivHex) {
+            try {
+              const decryptedBuf = await CryptoEngine.decryptBuffer(
+                file.ciphertextBase64,
+                file.saltHex,
+                file.ivHex,
+                file.storedPassphrase || 'VaultMasterKey#2024',
+                { keyHex: file.keyHex, storedPassphrase: file.storedPassphrase }
+              );
+              const blob = new Blob([decryptedBuf], { type: file.mimeType || 'application/octet-stream' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = file.name;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              setTimeout(() => URL.revokeObjectURL(url), 1000);
+              showToast('Download Complete', `${file.name} downloaded!`, 'success');
+              return;
+            } catch (e) {
+              console.warn('Decryption fallback:', e);
+            }
+          }
+          downloadSimulatedFile(file.name, file.accessibleSample || file.decryptedSample || 'Plaintext content.', file.mimeType || 'text/plain');
+        };
         previewText.textContent = file.accessibleSample || file.decryptedSample || 'Plaintext payload restored successfully.';
         previewBadge.textContent = 'Accessible Preview';
         previewBadge.className = 'badge badge-success';
+      }
+
+      // Download container button
+      const dlContainerBtn = document.getElementById('btn-detail-download-container');
+      if (dlContainerBtn) {
+        dlContainerBtn.onclick = () => {
+          if (typeof VaultContainer !== 'undefined') {
+            VaultContainer.download(file);
+          }
+        };
       }
 
       // Share button
@@ -308,10 +370,10 @@
       };
 
       document.getElementById('btn-confirm-delete-action').onclick = () => {
-        StorageService.deleteFile(file.id);
+        StorageService.softDeleteFile(file.id);
         closeModal('modal-delete-file');
-        showToast('File Shredded', 'The file was purged from vault storage.', 'success');
-        setTimeout(() => { window.location.href = 'my-files.html'; }, 500);
+        showToast('Moved to Recovery Bin', 'File can be recovered anytime from the Recovery Bin.', 'warning');
+        setTimeout(() => { window.location.href = 'my-files.html?view=trash'; }, 500);
       };
 
       // File Audit Feed

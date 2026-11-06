@@ -125,7 +125,10 @@
             <h1>Secured Vault Files</h1>
             <p>Manage, access, download, or share your zero-knowledge protected documents.</p>
           </div>
-          <div class="page-actions-group">
+          <div class="page-actions-group d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" id="btn-toggle-trash">
+              <i class="bi bi-trash3"></i> Recovery Bin (<span id="trash-badge-count">0</span>)
+            </button>
             <a href="upload.html" class="btn btn-primary">
               <i class="bi bi-cloud-arrow-up"></i> Upload & Secure
             </a>
@@ -157,10 +160,11 @@
             </select>
 
             <!-- Status Filter -->
-            <select id="files-filter-status" class="form-control" style="width: 140px;">
-              <option value="all">All Statuses</option>
-              <option value="secured">Secured</option>
-              <option value="accessible">Accessible</option>
+            <select id="files-filter-status" class="form-control" style="width: 160px;">
+              <option value="all">All Active Statuses</option>
+              <option value="secured">Secured Only</option>
+              <option value="accessible">Accessible Only</option>
+              <option value="deleted">Recovery Bin (Deleted)</option>
             </select>
 
             <!-- Sorting Select -->
@@ -238,24 +242,24 @@
   <div class="modal-backdrop" id="modal-delete-file">
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3 class="text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm File Shredding</h3>
+        <h3 class="text-warning"><i class="bi bi-trash3-fill me-2"></i> Move to Recovery Bin</h3>
         <button class="modal-close" onclick="closeModal('modal-delete-file')">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to permanently delete and cryptographically shred:</p>
+        <p>Move the following secured file to the <strong>Recovery Bin</strong>?</p>
         <div class="p-3 bg-light rounded border font-mono small text-break my-3" id="delete-file-name-placeholder">
           filename.pdf
         </div>
         <p class="text-muted small">
-          <strong>Warning:</strong> Cryptographic shredding overwrites container blocks with pseudorandom noise. This action cannot be reversed.
+          <strong>Recovery Guarantee:</strong> Files moved to the Recovery Bin remain protected and can be restored or recovered at any time.
         </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="closeModal('modal-delete-file')">Cancel</button>
-        <button type="button" class="btn btn-danger" id="btn-confirm-delete">
-          <i class="bi bi-trash-fill"></i> Shred & Delete
+        <button type="button" class="btn btn-warning" id="btn-confirm-delete">
+          <i class="bi bi-trash3"></i> Move to Recovery Bin
         </button>
       </div>
     </div>

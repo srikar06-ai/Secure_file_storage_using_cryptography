@@ -135,12 +135,37 @@
         <div class="decrypt-box">
           <!-- Selection Card -->
           <div class="card mb-4">
-            <h3 class="card-title mb-3">1. Select Secured File</h3>
-            <div class="form-group mb-0">
+            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+              <h3 class="card-title mb-0">1. Select or Upload Secured Container</h3>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-sm btn-primary" id="btn-tab-vault">
+                  <i class="bi bi-folder2-open"></i> Vault Containers
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="btn-tab-upload">
+                  <i class="bi bi-cloud-arrow-up"></i> Upload Downloaded (.svault)
+                </button>
+              </div>
+            </div>
+
+            <!-- Mode A: Vault Dropdown -->
+            <div id="decrypt-mode-vault" class="form-group mb-0">
               <label class="form-label" for="select-encrypted-file">Choose from Secured Vault Containers (.svault)</label>
               <select id="select-encrypted-file" class="form-control">
                 <!-- Dynamically loaded -->
               </select>
+            </div>
+
+            <!-- Mode B: Dropzone for Downloaded File Recovery -->
+            <div id="decrypt-mode-upload" style="display: none;">
+              <div class="dropzone-box text-center p-4 rounded" id="decrypt-container-dropzone" style="cursor: pointer; background: var(--bg-hover); border: 2px dashed var(--border-color); transition: all 0.2s;">
+                <i class="bi bi-file-earmark-arrow-up display-5 text-primary-color mb-2"></i>
+                <h4 class="mb-1">Select or Drop Downloaded (.svault) Container</h4>
+                <p class="text-muted small mb-3">Recover your original file even after it was deleted from your computer or vault.</p>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="btn-browse-container">
+                  <i class="bi bi-folder2-open"></i> Browse Downloaded Container
+                </button>
+                <input type="file" id="decrypt-container-file-input" accept=".svault,.enc,.json" style="display: none;">
+              </div>
             </div>
           </div>
 
@@ -258,12 +283,17 @@
               </div>
             </div>
 
-            <div class="d-flex justify-content-between pt-3 border-top">
-              <a href="my-files.html" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Return to Files
-              </a>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-3 border-top">
+              <div class="d-flex gap-2">
+                <a href="my-files.html" class="btn btn-secondary">
+                  <i class="bi bi-arrow-left"></i> Return to Files
+                </a>
+                <button type="button" class="btn btn-outline-success" id="btn-save-recovered-to-vault" style="display: none;">
+                  <i class="bi bi-cloud-plus"></i> Save to Vault Inventory
+                </button>
+              </div>
               <button type="button" class="btn btn-primary" id="btn-download-decrypted">
-                <i class="bi bi-download"></i> Download Accessible File
+                <i class="bi bi-download"></i> Download Recovered File
               </button>
             </div>
           </div>

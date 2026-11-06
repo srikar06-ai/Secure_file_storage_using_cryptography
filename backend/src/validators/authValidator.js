@@ -9,19 +9,20 @@
 const Joi = require('joi');
 
 const registerSchema = Joi.object({
+  name: Joi.string().trim().min(2).max(50).optional(),
+
   username: Joi.string()
     .trim()
     .min(3)
     .max(30)
     .pattern(/^[a-zA-Z0-9_-]+$/)
-    .required()
+    .optional()
     .messages({
       'string.base': 'Username must be a string.',
       'string.empty': 'Username is required.',
       'string.min': 'Username must be at least 3 characters long.',
       'string.max': 'Username cannot exceed 30 characters.',
-      'string.pattern.base': 'Username can only contain letters, numbers, underscores, and dashes.',
-      'any.required': 'Username is a required field.'
+      'string.pattern.base': 'Username can only contain letters, numbers, underscores, and dashes.'
     }),
 
   email: Joi.string()
@@ -56,7 +57,7 @@ const registerSchema = Joi.object({
     .messages({
       'any.only': 'Role must be either "user" or "admin".'
     })
-});
+}).or('username', 'name');
 
 const loginSchema = Joi.object({
   email: Joi.string()

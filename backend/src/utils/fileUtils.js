@@ -91,6 +91,9 @@ function isAllowedFileExtension(originalName) {
  * @returns {Promise<string>} Resolved file path
  */
 async function writeEncryptedFile(storedIdentifier, encryptedBuffer) {
+  if (!fs.existsSync(STORAGE_PATH)) {
+    await fs.promises.mkdir(STORAGE_PATH, { recursive: true });
+  }
   const filePath = getStorageFilePath(storedIdentifier);
   await fs.promises.writeFile(filePath, encryptedBuffer);
   return filePath;

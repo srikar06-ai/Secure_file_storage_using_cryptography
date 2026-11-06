@@ -398,11 +398,103 @@ async function purgeFile({ fileId, user, ipAddress = 'unknown', userAgent = 'unk
   };
 }
 
+/**
+ * Restore a soft-deleted file
+ *
+ * @param {object} params
+ * @param {string} params.fileId - MongoDB ObjectId
+ * @param {object} params.user   - Authenticated user
+ * @param {string} [params.ipAddress]
+ * @param {string} [params.userAgent]
+ * @returns {Promise<object>}
+ */
+async function restoreFile({ fileId, user, ipAddress = 'unknown', userAgent = 'unknown' }) {
+  if (!mongoose.Types.ObjectId.isValid(fileId)) {
+    const error = new Error('Invalid file identifier format.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const file = await File.findOne({ _id: fileId, isDeleted: true });
+
+  if (!file) {
+    const error = new Error('File not found in trash or already active.');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const isOwner = file.owner.toString() === user._id.toString();
+  const isAdmin = user.role === 'admin';
+
+  if (!isOwner && !isAdmin) {
+    const error = new Error('Access denied. Only the file owner can restore this file.');
+    error.statusCode = 403;
+    throw error;
+  }
+
+  file.isDeleted = false;
+  file.deletedAt = null;
+  await file.save();
+
+  await AuditLog.create({
+    user: user._id,
+    file: file._id,
+    action: 'RESTORE',
+    ipAddress,
+    userAgent,
+    status: 'success',
+    details: {
+      originalName: file.originalName,
+      storedIdentifier: file.storedIdentifier,
+      restoredBy: isAdmin && !isOwner ? 'admin' : 'owner'
+    }
+  });
+
+  return {
+    message: `File "${file.originalName}" has been successfully restored.`,
+    file: file.toObject()
+  };
+}
+
+/**
+ * List all soft-deleted files for user
+ */
+async function listDeletedFiles({ user, page = 1, limit = 20 }) {
+  const clampedLimit = Math.min(Number(limit) || 20, 100);
+  const skip = (Math.max(Number(page), 1) - 1) * clampedLimit;
+
+  const filter = { owner: user._id, isDeleted: true };
+
+  const [files, total] = await Promise.all([
+    File.find(filter)
+      .select('-crypto')
+      .sort({ deletedAt: -1 })
+      .skip(skip)
+      .limit(clampedLimit)
+      .lean(),
+    File.countDocuments(filter)
+  ]);
+
+  return {
+    files,
+    pagination: {
+      page: Math.max(Number(page), 1),
+      limit: clampedLimit,
+      total,
+      totalPages: Math.ceil(total / clampedLimit),
+      hasNext: skip + files.length < total,
+      hasPrev: skip > 0
+    }
+  };
+}
+
 module.exports = {
   uploadFile,
   downloadFile,
   listFiles,
   getFileMetadata,
   deleteFile,
-  purgeFile
+  purgeFile,
+  restoreFile,
+  listDeletedFiles
 };

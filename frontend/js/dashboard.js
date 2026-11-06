@@ -92,9 +92,15 @@ function renderRecentFiles() {
             ${isSecured 
               ? `<a href="decrypt.html?id=${file.id}" class="btn btn-outline-primary btn-sm btn-icon" title="Make Accessible">
                    <i class="bi bi-unlock"></i>
-                 </a>` 
-              : `<button class="btn btn-secondary btn-sm btn-icon" onclick="downloadSimulatedFile('${escapeHTML(file.name)}', '${escapeHTML(file.accessibleSample || file.decryptedSample)}')" title="Download">
+                 </a>
+                 <button class="btn btn-secondary btn-sm btn-icon" onclick="downloadDashboardContainer('${file.id}')" title="Download Container (.svault)">
+                   <i class="bi bi-shield-lock"></i>
+                 </button>` 
+              : `<button class="btn btn-success btn-sm btn-icon" onclick="downloadDashboardFile('${file.id}')" title="Download File">
                    <i class="bi bi-download"></i>
+                 </button>
+                 <button class="btn btn-secondary btn-sm btn-icon" onclick="downloadDashboardContainer('${file.id}')" title="Download Container (.svault)">
+                   <i class="bi bi-shield-lock"></i>
                  </button>`
             }
             <button class="btn btn-secondary btn-sm btn-icon" onclick="triggerQuickShare('${file.id}')" title="Share Securely">
@@ -214,4 +220,59 @@ function getFileIconClass(type) {
 
 function triggerQuickShare(fileId) {
   window.location.href = `shared-files.html?shareFileId=${fileId}`;
+}
+
+function downloadDashboardContainer(fileId) {
+  const file = StorageService.getFileById(fileId);
+  if (!file) return;
+  if (typeof VaultContainer !== 'undefined') {
+    VaultContainer.download(file);
+  }
+}
+
+async function downloadDashboardFile(fileId) {
+  const file = StorageService.getFileById(fileId);
+  if (!file) return;
+
+  const cachedBlob = typeof VaultBinaryStore !== 'undefined' ? VaultBinaryStore.get(`decrypted_${file.id}`) : null;
+  if (cachedBlob instanceof Blob) {
+    const url = URL.createObjectURL(cachedBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast('Download Started', `Downloading original ${file.name}`, 'success');
+    return;
+  }
+
+  if (file.ciphertextBase64 && file.saltHex && file.ivHex) {
+    try {
+      showToast('Preparing File', 'Decrypting stream...', 'info');
+      const decryptedBuf = await CryptoEngine.decryptBuffer(
+        file.ciphertextBase64,
+        file.saltHex,
+        file.ivHex,
+        file.storedPassphrase || 'VaultMasterKey#2024',
+        { keyHex: file.keyHex, storedPassphrase: file.storedPassphrase }
+      );
+      const blob = new Blob([decryptedBuf], { type: file.mimeType || 'application/octet-stream' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast('Download Complete', `${file.name} downloaded bit-perfectly!`, 'success');
+      return;
+    } catch (err) {
+      console.warn('Dashboard decryption fallback:', err);
+    }
+  }
+
+  downloadSimulatedFile(file.name, file.accessibleSample || file.decryptedSample || 'Plaintext payload.', file.mimeType || 'text/plain');
 }
